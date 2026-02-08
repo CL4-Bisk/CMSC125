@@ -55,4 +55,3 @@ int main() {
     execpv(cmd.command, cmd.args);
     return 0;
 }
-
