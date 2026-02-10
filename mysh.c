@@ -12,8 +12,6 @@
 
 int main() {
     while(1){
-
-        Command cmd;
         char arguments[MAX_ARGS];
 
         printf("mysh> ");
@@ -21,25 +19,13 @@ int main() {
         arguments[strcspn(arguments, "\n")] = 0;
         
         /* accesses the parser file through the header */
-        char *tokens = Parser(arguments);
-
-        /* built-in commands */
-        if (strcmp(tokens, "exit") == 0) {
-            return 0;
-        }
-
-        /* adds the arguments into the command */
-        int counter = 0;
-        cmd.command = tokens;
-
-        while (tokens != NULL) {
-            cmd.args[counter++] = tokens;
-            tokens = strtok(NULL, " ");
-        }
-        cmd.args[counter] = NULL;
+        Command cmd = parse(arguments);
 
         /* accesses the interpreter file through the header */
-        Interpreter(&cmd);
+        int checker = interpret(&cmd);
+        if(checker == 1){
+            break;
+        }
     }
 
     return 0;
