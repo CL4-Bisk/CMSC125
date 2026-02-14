@@ -13,14 +13,18 @@
 /* retrieves the header file*/
 #include "header.h"
 
-int main() {
-    while(1){
-        
+int main()
+{
+    while (1)
+    {
+
         char *arguments = readline("mysh> ");
-        if (!arguments) break;             // Handle EOF (Ctrl+D)
-        
-        if (arguments[0] != '\0') {
-            add_history(arguments);       
+        if (!arguments)
+            break; // Handle EOF (Ctrl+D)
+
+        if (arguments[0] != '\0')
+        {
+            add_history(arguments);
 
             /* accesses the parse function through the header */
             Command cmd = parse(arguments);
@@ -28,17 +32,18 @@ int main() {
             /* accesses the interpret function through the header */
             int checker = interpret(&cmd);
 
-            free(arguments); 
+            free(arguments);
 
-            if(checker == 1){
+            if (checker == 1)
+            {
                 break;
             }
-            
-        } else {
+        }
+        else
+        {
             // User pressed enter without typing anything
-            free(arguments); 
+            free(arguments);
         }
     }
     return 0;
 }
-

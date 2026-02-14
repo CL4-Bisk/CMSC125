@@ -23,7 +23,14 @@ Command parse(char *input){
         .args         = {NULL}
     };
 
-    char *tokens = strtok(input, " ");
+    char *input_copy = strdup(input); // Duplicate input for tokenization
+    if (input_copy == NULL) {
+        perror("Memory allocation failed");
+        return cmd; // Return empty command on failure
+    }
+
+    /* tokenizes the input */
+    char *tokens = strtok(input_copy, " ");
     /* adds the arguments into the command */
 
     int counter = 0;
