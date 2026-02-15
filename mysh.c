@@ -15,13 +15,15 @@
 
 int main()
 {
-    while (1)
+    int checker = 1;
+    while (checker)
     {
-
         char *arguments = readline("mysh> ");
         if (!arguments)
+        {
             break; // Handle EOF (Ctrl+D)
-
+        }
+            
         if (arguments[0] != '\0')
         {
             add_history(arguments);
@@ -30,20 +32,12 @@ int main()
             Command cmd = parse(arguments);
 
             /* accesses the interpret function through the header */
-            int checker = interpret(&cmd);
+            checker = interpret(&cmd);
 
-            free(arguments);
+        }
+        // User pressed enter without typing anything
+        free(arguments);
 
-            if (checker == 1)
-            {
-                break;
-            }
-        }
-        else
-        {
-            // User pressed enter without typing anything
-            free(arguments);
-        }
     }
     return 0;
 }
