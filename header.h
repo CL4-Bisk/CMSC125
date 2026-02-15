@@ -10,6 +10,7 @@ typedef struct {
     char *output_file;    // For > or >> redirection (NULL if none)
     bool append;          // true for >>, false for >
     bool background;      // true if & present
+    char *copy_holder;    // for freeing the copy of the arguments
 } Command;
 
 /* constants */

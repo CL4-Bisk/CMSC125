@@ -3,6 +3,7 @@
  * A simple C program to interpret your command argument from its tokens.
  */
 
+#define _POSIX_C_SOURCE 200809L  
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -71,13 +72,13 @@ int interpret(Command *cmd)
 
     if (cmd->command == NULL)
     {
-        return 0;
+        return 1;
     }
 
     /* built-in commands */
     if (strcmp(cmd->command, "exit") == 0)
     {
-        return 1;
+        return 0;
     }
     else if (strcmp(cmd->command, "cd") == 0)
     {
@@ -90,7 +91,7 @@ int interpret(Command *cmd)
         {
             perror("Error changing directory");
         }
-        return 0;
+        return 1;
     }
     else if (strcmp(cmd->command, "pwd") == 0)
     {
@@ -104,7 +105,7 @@ int interpret(Command *cmd)
         {
             perror("Setting current working directory failed");
         }
-        return 0;
+        return 1;
     }
     pid_t pid = fork();
 
@@ -166,8 +167,7 @@ int interpret(Command *cmd)
     } else if (pid < 0)
     {
         perror("fork failed");
-        return 0;
     }
 
-    return 0;
+    return 1;
 }

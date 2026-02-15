@@ -3,7 +3,9 @@
  * A simple C program to parse the user input for the command.
  */
  
+#define _POSIX_C_SOURCE 200809L  
 #include <stdio.h>
+#include <stdlib.h> // For free() and malloc()
 #include <string.h>
 #include <stdbool.h>
 
@@ -20,12 +22,12 @@ Command parse(char *input){
         .output_file  = NULL,
         .append       = false,
         .background   = false,
-        .args         = {NULL}
+        .args         = {NULL},
+        .copy_holder  = strdup(input) 
     };
 
-    /* tokenizes the input */
-    char *tokens = strtok(input, " ");
-    /* adds the arguments into the command */
+    /* tokenize the copy */
+    char *tokens = strtok(cmd.copy_holder, " ");
 
     int counter = 0;
     while (tokens != NULL) {

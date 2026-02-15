@@ -34,6 +34,10 @@ int main()
             /* accesses the interpret function through the header */
             checker = interpret(&cmd);
 
+            if (cmd.copy_holder) {
+                /* frees the copy of the argument */
+                free(cmd.copy_holder);
+            }
         }
         // User pressed enter without typing anything
         free(arguments);
