@@ -1,0 +1,25 @@
+ls
+ls -la /tmp
+pwd
+cd /tmp
+pwd
+nonexistent_command
+echo "hello" > output.txt
+cat output.txt
+echo "first" > output.txt
+echo "second" >> output.txt
+cat output.txt
+wc -l < output.txt
+sort < output.txt > sorted.txt
+cat sorted.txt
+sort > sorted.txt < output.txt
+wc -l < nofile.txt
+sleep 5 &
+sleep 10 &
+echo "hi"
+sleep 5 &
+sleep 6 &
+sleep 7 &
+ls > output.txt &
+echo "done" &
+exit

@@ -10,7 +10,15 @@ typedef struct {
     char *output_file;    // For > or >> redirection (NULL if none)
     bool append;          // true for >>, false for >
     bool background;      // true if & present
+    char *original_string;    // for freeing the copy of the arguments
 } Command;
+
+/* maintains a structure of background jobs */
+typedef struct
+{
+    int job_counter;            // Counter to keep track of the number of background jobs
+    int job_pids[256];        // Array to store PIDs of background jobs
+} Background;
 
 /* constants */
 #define MAX_ARGS 254

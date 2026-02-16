@@ -81,7 +81,8 @@ You should see version information for GCC.
 ### III. Integrating Visual Studio Code with WSL
 
 1. Download and install Visual Studio Code for Windows from the
-   [official website](https://code.visualstudio.com/). (Skip to 6 if already installed VS Code and installed WSL and C/C++ extensions)
+   [official website](https://code.visualstudio.com/).
+   (Skip to 6 if already installed VS Code and installed WSL and C/C++ extensions)
 2. Open Visual Studio Code.
 3. Under the Extensions tab, search for <strong>WSL</strong>.
 4. Install the WSL extension by Microsoft.
@@ -158,7 +159,21 @@ make clean
 
 # Limitations and Bugs
 
-Currently looing for them.
+### 1. `job_counter` Overflow
+
+- Running 257 background jobs will cause the the shell to write outside the array bounds and crash. Even if you only have 1 active job at a time, job_counter never resets.
+
+### 2. Standard Input/Output Leak
+
+- The child process opens files for redirection but does not close the original file descriptors after calling dup2. While the OS cleans this up on execvp, if execvp fails, the shell could potentially leak file descriptors. 
+
+### 3. Argument Safety
+
+- If a user types more than 254 arguments, it will overflow the args[256] array.
+
+### 4. Multi-command Running
+
+- In classic Unix Shell Environment such as WSL, any command written after "&" will result into a new command, but due to limitations that couldn't be implemented.
 
 # Design and Architecture Overview
 
@@ -197,6 +212,7 @@ This follows a simple Read–Parse–Execute Model of our work.
         char *output_file;    // For > or >> redirection (NULL if none)
         bool append;          // true for >>, false for >
         bool background;      // true if & present
+        char *copy_holder;    // for freeing the copy of the arguments
     } Command;
     ```
 * Interpreter Module
