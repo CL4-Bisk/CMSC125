@@ -23,11 +23,11 @@ Command parse(char *input){
         .append       = false,
         .background   = false,
         .args         = {NULL},
-        .copy_holder  = strdup(input) 
+        .original_string  = strdup(input) 
     };
 
     /* tokenize the copy */
-    char *tokens = strtok(cmd.copy_holder, " ");
+    char *tokens = strtok(cmd.original_string, " ");
 
     int counter = 0;
     while (tokens != NULL) {

@@ -15,14 +15,6 @@
 /* retrieves the header file */
 #include "header.h"
 
-/* maintains a structure of background jobs */
-typedef struct
-{
-    char *background_jobs[256]; // Array to store background job commands
-    int job_counter;            // Counter to keep track of the number of background jobs
-    pid_t job_pids[256];        // Array to store PIDs of background jobs
-} Background;
-
 Background bg = {.job_counter = 0};
 
 /* for testing and checking of values */
@@ -53,9 +45,7 @@ void reap_zombies() {
         {
             if (bg.job_pids[i] == pid)
             {
-                printf("\n[%d] Done: %s\n", i + 1, bg.background_jobs[i]);
-                free(bg.background_jobs[i]);
-                bg.background_jobs[i] = NULL;
+                printf("\n[%d] Done: PID %d\n", i + 1, bg.job_pids[i]);
                 bg.job_pids[i] = 0;
             }
         }
@@ -156,10 +146,9 @@ int interpret(Command *cmd)
             int index = bg.job_counter;
 
             bg.job_pids[index] = pid;
-            bg.background_jobs[index] = strdup(cmd->command);
 
-            printf("[%d] Started background job: %s (PID: %d)\n",
-                index + 1, cmd->command, pid);
+            printf("[%d] Started background job: PID %d\n",
+                index + 1, pid);
 
             bg.job_counter++;
 
